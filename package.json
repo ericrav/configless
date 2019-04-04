@@ -1,15 +1,16 @@
 {
   "name": "configless",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib && tsc",
+    "build": "rm -rf lib && rm -rf plugin && tsc && mv lib/plugin plugin",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eric Rabinowitz",
   "files": [
-    "lib"
+    "lib",
+    "plugin"
   ],
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
@@ -26,7 +27,6 @@
     "aws-sdk": "^2.433.0",
     "deepmerge": "^3.2.0",
     "fs-extra": "^7.0.1",
-    "serverless": "^1.40.0",
     "typescript": "^3.4.1"
   }
 }
