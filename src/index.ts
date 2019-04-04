@@ -3,7 +3,6 @@ import { FUNCTIONS_METADATA } from './decorators/config';
 export * from './decorators';
 
 export function addServices(parentExports, services: any[]) {
-  console.log(module.parent && module.parent.exports === parentExports);
   if (module.parent && module.parent.exports && Object.keys(module.parent.exports).length) {
     Object.assign(parentExports, module.parent.exports, { default: null });
     return;

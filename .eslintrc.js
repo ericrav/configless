@@ -21,7 +21,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'linebreak-style': ['error', 'unix'],
-    'no-console': 'off',
     'no-param-reassign': 'off',
     'no-restricted-syntax': 'off',
     'no-use-before-define': 'off',
