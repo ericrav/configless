@@ -1,3 +1,5 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 import * as path from 'path';
 import * as ts from 'typescript';
 
