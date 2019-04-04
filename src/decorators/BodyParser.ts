@@ -1,7 +1,7 @@
 export function BodyParser(target: Object, key: string, descriptor: PropertyDescriptor) {
   const fn = descriptor.value;
 
-  descriptor.value = async (event: any, context: any) => {
+  descriptor.value = async function (event: any, context: any) {
     let body = {};
 
     if (event.body && event.body !== '') {
