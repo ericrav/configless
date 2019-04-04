@@ -1,0 +1,32 @@
+{
+  "name": "configless",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "rm -rf lib && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Rabinowitz",
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.5",
+    "@types/node": "^11.13.0",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.5.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-plugin-import": "^2.16.0"
+  },
+  "dependencies": {
+    "@types/serverless": "^1.18.2",
+    "aws-sdk": "^2.433.0",
+    "deepmerge": "^3.2.0",
+    "fs-extra": "^7.0.1",
+    "serverless": "^1.40.0",
+    "typescript": "^3.4.1"
+  }
+}
