@@ -1,4 +1,4 @@
-import { FUNCTIONS_METADATA, FunctionConfig } from './config';
+import { FUNCTIONS_METADATA, FunctionConfig, MissingHandlerError } from './config';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
 
@@ -8,11 +8,13 @@ export function Endpoint(
   extraConfig: object = {},
 ): MethodDecorator {
   return (target: Object, key: string, descriptor: PropertyDescriptor) => {
-    if (!target.constructor[FUNCTIONS_METADATA]) {
-      target.constructor[FUNCTIONS_METADATA] = {};
+    const metadata = target.constructor[FUNCTIONS_METADATA];
+
+    if (!metadata || !metadata[key]) {
+      throw new MissingHandlerError(`Missing @Handler decorator for ${key}`);
     }
 
-    const config: FunctionConfig = target.constructor[FUNCTIONS_METADATA][key];
+    const config: FunctionConfig = metadata[key];
 
     if (!config.events) {
       config.events = [];

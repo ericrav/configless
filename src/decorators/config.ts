@@ -12,3 +12,5 @@ export interface FunctionConfig extends Partial<Serverless.FunctionDefinition> {
   [key: string]: any;
   events?: Record<string, object>[];
 }
+
+export class MissingHandlerError extends Error {}
