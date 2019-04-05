@@ -9,7 +9,7 @@
     "rootDir": "./src",
     "strictNullChecks": true,
     "target": "es6",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "incremental": true
   },
 }

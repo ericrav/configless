@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && rm -rf plugin && tsc && mv lib/plugin plugin",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Eric Rabinowitz",
   "files": [
@@ -14,13 +14,16 @@
   ],
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
+    "@types/jest": "^24.0.11",
     "@types/node": "^11.13.0",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.5.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-typescript": "^1.1.1",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-plugin-import": "^2.16.0",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.1"
   },
   "dependencies": {
     "@types/serverless": "^1.18.2",
