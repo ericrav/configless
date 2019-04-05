@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { Lambda } from 'aws-sdk';
 
 import { Handler } from '../../src';
@@ -40,14 +41,14 @@ describe('adding config metadata to the class', () => {
       @Handler({ danny: 'devito' })
       public mock2() {}
 
-      @Handler({ environment: { sound: 'and I sound like this' }})
+      @Handler({ environment: { sound: 'and I sound like this' } })
       public theArm() {}
     }
 
     expect(MockClass[FUNCTIONS_METADATA]).toEqual({
       mock1: {},
       mock2: { danny: 'devito' },
-      theArm: { environment: { sound: 'and I sound like this' }},
+      theArm: { environment: { sound: 'and I sound like this' } },
     });
   });
 });
@@ -64,6 +65,7 @@ describe('invoke metadata assignment', () => {
 describe('class instances and this', () => {
   class MockClass {
     private foo = 42;
+
     private greeting: string;
 
     public constructor() {
