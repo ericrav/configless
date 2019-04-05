@@ -1,11 +1,17 @@
+import { IncomingHttpHeaders } from 'http';
 import { FUNCTIONS_METADATA, FunctionConfig, MissingHandlerError } from './config';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS';
 
+interface RequestConfig {
+  headers?: IncomingHttpHeaders;
+  [key: string]: any;
+}
+
 export function Endpoint(
   method: HttpMethod,
   path: string,
-  extraConfig: object = {},
+  extraConfig: RequestConfig = {},
 ): MethodDecorator {
   return (target: Object, key: string, descriptor: PropertyDescriptor) => {
     const metadata = target.constructor[FUNCTIONS_METADATA];
