@@ -18,7 +18,7 @@ export function Handler(config: FunctionConfig = {}): MethodDecorator {
 
       const defaultName = `${process.env.SLS_DECORATORS_FUNC_PREFIX}-${methodName}`;
       const functionName: string = config.name || defaultName;
-      console.log(`Invoking Lambda function: ${functionName}`);
+      console.info(`Invoking Lambda function: ${functionName}`);
       const lambda = new Lambda();
       return new Promise((resolve, reject) => {
         lambda.invoke({
