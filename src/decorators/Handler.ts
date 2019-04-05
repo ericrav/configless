@@ -11,12 +11,13 @@ export function Handler(config: FunctionConfig = {}): MethodDecorator {
 
     const localInvoke: Function = descriptor.value;
     async function awsInvoke(...args: unknown[]) {
-      if (process.env.IS_LOCAL === 'true') {
+      if (process.env.NODE_ENV === 'test' || process.env.IS_LOCAL === 'true') {
         const ServiceClass = target.constructor as FunctionConstructor;
         return localInvoke.apply(new ServiceClass(), args);
       }
 
-      const functionName: string = config.name || `${process.env.SLS_DECORATORS_FUNC_PREFIX}-${methodName}`;
+      const defaultName = `${process.env.SLS_DECORATORS_FUNC_PREFIX}-${methodName}`;
+      const functionName: string = config.name || defaultName;
       console.log(`Invoking Lambda function: ${functionName}`);
       const lambda = new Lambda();
       return new Promise((resolve, reject) => {
