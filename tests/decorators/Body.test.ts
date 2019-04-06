@@ -1,6 +1,6 @@
 import { Body } from '../../src';
-import Metadata from '../../src/decorators/metadata';
 import { RequestParam } from '../../src/decorators/config';
+import Metadata from '../../src/decorators/metadata';
 
 jest.spyOn(Metadata, 'setParams');
 

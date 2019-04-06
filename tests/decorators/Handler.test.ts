@@ -2,7 +2,7 @@
 import { Lambda } from 'aws-sdk';
 
 import { Handler } from '../../src';
-import { FUNCTIONS_METADATA } from '../../src/decorators/config';
+import Metadata from '../../src/decorators/metadata';
 
 jest.mock('aws-sdk');
 
@@ -17,9 +17,9 @@ class MockClass {
 
 describe('adding config metadata to the class', () => {
   it('adds an empty object when nothing passed', () => {
-    expect(MockClass[FUNCTIONS_METADATA]).toEqual({
-      mockMethod: {},
-    });
+    expect(Metadata.getFunctions(MockClass)).toEqual([
+      ['mockMethod', {}],
+    ]);
   });
 
   it('adds any config object passed', () => {
@@ -28,9 +28,9 @@ describe('adding config metadata to the class', () => {
       public mockMethod() {}
     }
 
-    expect(MockClass[FUNCTIONS_METADATA]).toEqual({
-      mockMethod: { env: 42, foo: 'bar' },
-    });
+    expect(Metadata.getFunctions(MockClass)).toEqual([
+      ['mockMethod', { env: 42, foo: 'bar' }],
+    ]);
   });
 
   it('adds configs for multiple handlers', () => {
@@ -45,11 +45,11 @@ describe('adding config metadata to the class', () => {
       public theArm() {}
     }
 
-    expect(MockClass[FUNCTIONS_METADATA]).toEqual({
-      mock1: {},
-      mock2: { danny: 'devito' },
-      theArm: { environment: { sound: 'and I sound like this' } },
-    });
+    expect(Metadata.getFunctions(MockClass)).toEqual([
+      ['mock1', {}],
+      ['mock2', { danny: 'devito' }],
+      ['theArm', { environment: { sound: 'and I sound like this' } }],
+    ]);
   });
 });
 
@@ -96,8 +96,9 @@ describe('class instances and this', () => {
 
 describe('invoking the AWS Lambda function', () => {
   const invoke = jest.fn();
+  let instance;
 
-  beforeAll(() => {
+  beforeEach(() => {
     process.env.SLS_DECORATORS_FUNC_PREFIX = 'service-test';
 
     (Lambda as unknown as jest.SpyInstance).mockImplementation(() => ({
@@ -106,10 +107,17 @@ describe('invoking the AWS Lambda function', () => {
 
     process.env.NODE_ENV = 'production';
     process.env.IS_LOCAL = undefined;
+
+    class AWSMockClass {
+      @Handler()
+      public mockMethod(event: any) {}
+    }
+
+    instance = new AWSMockClass();
   });
 
   it('calls lambda.invoke with the right properties', () => {
-    new MockClass().mockMethod({ foo: 'bar' });
+    instance.mockMethod({ foo: 'bar' });
     expect(Lambda).toHaveBeenCalledTimes(1);
     expect(invoke.mock.calls[0][0]).toEqual({
       FunctionName: 'service-test-mockMethod',
@@ -134,14 +142,14 @@ describe('invoking the AWS Lambda function', () => {
   });
 
   it('resolves the promise when callback has no error', () => {
-    const promise = new MockClass().mockMethod({ foo: 'bar' });
+    const promise = instance.mockMethod({ foo: 'bar' });
     const callback = invoke.mock.calls[0][1];
     callback(undefined, 'data');
     expect(promise).resolves.toEqual('data');
   });
 
   it('rejects the promise when callback has an error', () => {
-    const promise = new MockClass().mockMethod({ foo: 'bar' });
+    const promise = instance.mockMethod({ foo: 'bar' });
     const callback = invoke.mock.calls[0][1];
     callback('err');
     expect(promise).rejects.toEqual('err');

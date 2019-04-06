@@ -1,8 +1,9 @@
 import * as deepmerge from 'deepmerge';
 
 import {
-  ENV_METADATA, EnvMetadata, FunctionConfig, FUNCTIONS_METADATA,
+  ENV_METADATA, EnvMetadata, FunctionConfig,
 } from './config';
+import Metadata from './metadata';
 
 interface Constructable<T> {
   new (...args: any[]): T;
@@ -10,12 +11,10 @@ interface Constructable<T> {
 
 export function Service(config?: FunctionConfig) {
   return function Decorator<T extends Constructable<any>>(constructor: T): T | void {
-    const functionConfigs: Record<string, FunctionConfig> = constructor[FUNCTIONS_METADATA];
+    const functionConfigs = Metadata.getFunctions(constructor);
     if (config && functionConfigs) {
-      for (const key in functionConfigs) {
-        if (Object.prototype.hasOwnProperty.call(functionConfigs, key)) {
-          functionConfigs[key] = deepmerge(config, functionConfigs[key]);
-        }
+      for (const [key, functionConfig] of functionConfigs) {
+        Metadata.setFunctions(constructor, key, deepmerge(config, functionConfig));
       }
     }
 

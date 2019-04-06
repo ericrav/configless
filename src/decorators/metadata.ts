@@ -5,6 +5,10 @@ const ENV_KEY = '__SLSTS_ENV_PROPERTIES';
 const PARAMS_KEY = '__SLSTS_PARAMS';
 
 export default class Metadata {
+  public static getFunction(constructor: Function, key: string): FunctionConfig {
+    return safeGet(constructor, FUNCTIONS_KEY, key);
+  }
+
   public static getFunctions(constructor: Function) {
     const functions: Record<string, FunctionConfig> = safeGet(constructor, FUNCTIONS_KEY);
     return functions && Object.entries(functions);
