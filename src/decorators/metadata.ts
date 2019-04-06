@@ -1,10 +1,31 @@
-import { RequestParam } from './config';
+import { RequestParam, FunctionConfig } from './config';
 
 const FUNCTIONS_KEY = '__SLSTS_FUNCTIONS';
 const ENV_KEY = '__SLSTS_ENV_PROPERTIES';
 const PARAMS_KEY = '__SLSTS_PARAMS';
 
 export default class Metadata {
+  public static getFunctions(constructor: Function) {
+    const functions: Record<string, FunctionConfig> = safeGet(constructor, FUNCTIONS_KEY);
+    return functions && Object.entries(functions);
+  }
+
+  public static setFunctions(constructor: Function, key: string, config: FunctionConfig) {
+    safeSet(
+      constructor,
+      [FUNCTIONS_KEY, {}],
+      [key, config],
+    );
+  }
+
+  public static getEnv() {
+
+  }
+
+  public static setEnv() {
+
+  }
+
   public static getParams(target: Object, key: string): RequestParam {
     return safeGet(target.constructor, PARAMS_KEY, key) as RequestParam;
   }
