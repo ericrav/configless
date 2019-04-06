@@ -4,8 +4,12 @@
   "description": "Serverless plugin to configure functions using TypeScript decorators",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "yarn build",
+    "precommit": "yarn test",
     "build": "rm -rf lib && rm -rf plugin && tsc -p tsconfig.build.json && mv lib/plugin plugin",
-    "test": "jest"
+    "pretest": "yarn lint",
+    "test": "jest",
+    "lint": "eslint -c .eslintrc.js --ext .ts src"
   },
   "author": "Eric Rabinowitz <er@ericrbainowitz.com>",
   "repository": {
@@ -35,6 +39,7 @@
     "eslint-import-resolver-typescript": "^1.1.1",
     "eslint-plugin-import": "^2.16.0",
     "jest": "^24.7.1",
+    "serverless": "^1.40.0",
     "ts-jest": "^24.0.1"
   },
   "dependencies": {

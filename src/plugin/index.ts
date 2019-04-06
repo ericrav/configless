@@ -1,10 +1,9 @@
 import * as fs from 'fs-extra';
 import * as path from 'path';
-
-import compile from './compile';
-
 import Serverless from 'serverless';
 import Plugin from 'serverless/classes/Plugin';
+
+import compile from './compile';
 
 module.exports = class ServerlessPlugin implements Plugin {
   public hooks = {
@@ -16,7 +15,9 @@ module.exports = class ServerlessPlugin implements Plugin {
   };
 
   private serverless: Serverless;
+
   private options: Serverless.Options;
+
   private servicePath: string;
 
   public constructor(serverless: Serverless, options: Serverless.Options) {
@@ -30,7 +31,6 @@ module.exports = class ServerlessPlugin implements Plugin {
   private async compileFuntionsConfig() {
     this.serverless.cli.log('Adding functions to Serverless config');
     const config = await compile(this.servicePath);
-    // Object.assign(this.serverless.service.functions, config);
     const slsService = this.serverless.service;
     const serviceName = slsService['service'];
     const stageName = this.options.stage || this.options['s'] || slsService.provider.stage;
@@ -46,7 +46,6 @@ module.exports = class ServerlessPlugin implements Plugin {
   }
 
   private cleanup() {
-    // console.log(this.serverless.service.functions);
     fs.removeSync(path.join(this.servicePath, '/.decorators'));
   }
 };

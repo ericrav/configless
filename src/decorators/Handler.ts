@@ -50,6 +50,7 @@ function createLambdaInvokeFunction(methodName, config) {
     const defaultName = `${process.env.SLS_DECORATORS_FUNC_PREFIX}-${methodName}`;
     const functionName: string = config.name || defaultName;
 
+    // eslint-disable-next-line no-console
     console.info(`Invoking Lambda function: ${functionName}`);
 
     const lambda = new Lambda();
