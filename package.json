@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib && rm -rf plugin && tsc && mv lib/plugin plugin",
+    "build": "rm -rf lib && rm -rf plugin && tsc -p tsconfig.build.json && mv lib/plugin plugin",
     "test": "jest"
   },
   "author": "Eric Rabinowitz",
