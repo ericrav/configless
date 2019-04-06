@@ -24,6 +24,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'linebreak-style': ['error', 'unix'],
     'no-param-reassign': 'off',
+    'no-plusplus': ['error', { "allowForLoopAfterthoughts": true }],
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
