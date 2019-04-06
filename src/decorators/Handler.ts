@@ -11,7 +11,7 @@ export function Handler(config: FunctionConfig = {}): MethodDecorator {
     descriptor.value = localInvoke;
     target[`__invoke_${methodName}`] = localInvoke;
 
-    if (process.env.NODE_ENV === 'production' && process.env.IS_LOCAL !== 'true') {
+    if (process.env.NODE_ENV !== 'test' && process.env.IS_LOCAL !== 'true') {
       descriptor.value = createLambdaInvokeFunction(methodName, config);
     }
 
@@ -22,16 +22,18 @@ export function Handler(config: FunctionConfig = {}): MethodDecorator {
 function transform(target: Object, key: string, fn: Function) {
   // eslint-disable-next-line func-names
   return function (event: any, context: any) {
+    const originalArgs = [event, context];
     const transformTypes = Metadata.getParams(target.constructor, key) || [];
-    const args = transformTypes.map((transformType) => {
+    // spread sparse array into full array with undefineds
+    const args = [...transformTypes].map((transformType) => {
       if (transformType === RequestParam.JsonBody) {
         return transformJsonBody(event);
       }
 
-      return undefined;
+      return originalArgs.shift();
     });
 
-    return fn.apply(this, [...args, event, context]);
+    return fn.apply(this, [...args, ...originalArgs]);
   };
 }
 

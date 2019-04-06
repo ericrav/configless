@@ -111,6 +111,27 @@ describe('transforming the function arguments', () => {
     const result = await new MockWithBody().mockMethod({});
     expect(result).toEqual({});
   });
+
+  it('passes the body argument in any position', async () => {
+    class Mock {
+      @Handler()
+      public async mockMethod(event, context, @Body() body) {
+        return [event, context, body];
+      }
+    }
+    const event = { foo: 1, body: JSON.stringify({ bar: 'baz' }) };
+    const result = await (new Mock().mockMethod as any)(event, {});
+    expect(result).toEqual([event, {}, { bar: 'baz' }]);
+
+    class Mock2 {
+      @Handler()
+      public async mockMethod(event, @Body() body, context) {
+        return [event, body, context];
+      }
+    }
+    const result2 = await (new Mock2().mockMethod as any)(event, {});
+    expect(result2).toEqual([event, { bar: 'baz' }, {}]);
+  });
 });
 
 
