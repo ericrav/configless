@@ -68,6 +68,51 @@ describe('setFunctions', () => {
   });
 });
 
+describe('getEnv', () => {
+  it('returns undefined when no env metadata', () => {
+    expect(Metadata.getEnv(target.constructor)).toBeUndefined();
+  });
+
+  it('returns the value when defined', () => {
+    target.constructor[ENV_KEY] = [{ key: 'foo', envName: 'bar' }];
+
+    expect(Metadata.getEnv(target.constructor)).toEqual([
+      { key: 'foo', envName: 'bar' },
+    ]);
+  });
+});
+
+describe('setEnv', () => {
+  it('sets the value when no env metadata array yet', () => {
+    Metadata.setEnv(target.constructor, { key: 'xyz', envName: 'xyz' });
+    expect(target.constructor[ENV_KEY]).toEqual([
+      { key: 'xyz', envName: 'xyz' },
+    ]);
+  });
+
+  it('add the value to the end of the array when defined', () => {
+    const prop1 = { key: '1', envName: '1' };
+    const prop2 = { key: '2', envName: '2' };
+    const prop3 = { key: '3', envName: '3' };
+    target.constructor[ENV_KEY] = [];
+    Metadata.setEnv(target.constructor, prop1);
+    expect(Metadata.getEnv(target.constructor)).toEqual([
+      prop1,
+    ]);
+    Metadata.setEnv(target.constructor, prop2);
+    expect(Metadata.getEnv(target.constructor)).toEqual([
+      prop1,
+      prop2,
+    ]);
+    Metadata.setEnv(target.constructor, prop3);
+    expect(Metadata.getEnv(target.constructor)).toEqual([
+      prop1,
+      prop2,
+      prop3,
+    ]);
+  });
+});
+
 describe('getParams', () => {
   it('returns undefined when no params object', () => {
     expect(Metadata.getParams(target, 'key1')).toBeUndefined();

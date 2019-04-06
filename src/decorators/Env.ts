@@ -1,4 +1,5 @@
-import { ENV_METADATA, EnvMetadata } from './config';
+import { EnvMetadata } from './config';
+import Metadata from './metadata';
 
 export function Env(name?: string): PropertyDecorator {
   return (target: Object, key: string) => {
@@ -6,10 +7,6 @@ export function Env(name?: string): PropertyDecorator {
 
     const envProperty: EnvMetadata = { key, envName };
 
-    if (Array.isArray(target.constructor[ENV_METADATA])) {
-      target.constructor[ENV_METADATA].push(envProperty);
-    } else {
-      target.constructor[ENV_METADATA] = [envProperty];
-    }
+    Metadata.setEnv(target.constructor, envProperty);
   };
 }

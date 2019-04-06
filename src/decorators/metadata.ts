@@ -1,4 +1,4 @@
-import { RequestParam, FunctionConfig } from './config';
+import { RequestParam, FunctionConfig, EnvMetadata } from './config';
 
 const FUNCTIONS_KEY = '__SLSTS_FUNCTIONS';
 const ENV_KEY = '__SLSTS_ENV_PROPERTIES';
@@ -22,12 +22,13 @@ export default class Metadata {
     );
   }
 
-  public static getEnv() {
-
+  public static getEnv(constructor: Function): EnvMetadata[] {
+    return safeGet(constructor, ENV_KEY);
   }
 
-  public static setEnv() {
-
+  public static setEnv(constructor: Function, property: EnvMetadata) {
+    const length = safeGet(constructor, ENV_KEY, 'length') || 0;
+    safeSet(constructor, [ENV_KEY, []], [length, property]);
   }
 
   public static getParams(target: Object, key: string): RequestParam {

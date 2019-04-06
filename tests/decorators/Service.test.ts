@@ -1,6 +1,6 @@
 import { Service } from '../../src';
-import { ENV_METADATA } from '../../src/decorators/config';
 
+const ENV_METADATA = '__SLSTS_ENV_PROPERTIES';
 const FUNCTIONS_METADATA = '__SLSTS_FUNCTIONS';
 
 it('preserves static properties', () => {

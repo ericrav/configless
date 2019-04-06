@@ -1,5 +1,5 @@
 import { Env } from '../../src';
-import { ENV_METADATA } from '../../src/decorators/config';
+import Metadata from '../../src/decorators/metadata';
 
 class Mock {
   @Env() private foobar: number;
@@ -8,7 +8,7 @@ class Mock {
 }
 
 it('adds environment metadata to the class', () => {
-  expect(Mock[ENV_METADATA]).toEqual([
+  expect(Metadata.getEnv(Mock)).toEqual([
     { key: 'foobar', envName: 'foobar' },
     { key: 'test', envName: 'SOME_ENV' },
   ]);

@@ -1,7 +1,7 @@
 import * as deepmerge from 'deepmerge';
 
 import {
-  ENV_METADATA, EnvMetadata, FunctionConfig,
+  EnvMetadata, FunctionConfig,
 } from './config';
 import Metadata from './metadata';
 
@@ -18,7 +18,7 @@ export function Service(config?: FunctionConfig) {
       }
     }
 
-    const envProperties = constructor[ENV_METADATA];
+    const envProperties = Metadata.getEnv(constructor);
     if (envProperties) {
       return classWithEnvProperties<T>(constructor, envProperties);
     }
