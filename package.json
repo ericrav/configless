@@ -1,13 +1,25 @@
 {
   "name": "configless",
-  "version": "0.1.1",
-  "description": "",
+  "version": "0.1.2",
+  "description": "Serverless plugin to configure functions using TypeScript decorators",
   "main": "lib/index.js",
   "scripts": {
     "build": "rm -rf lib && rm -rf plugin && tsc -p tsconfig.build.json && mv lib/plugin plugin",
     "test": "jest"
   },
-  "author": "Eric Rabinowitz",
+  "author": "Eric Rabinowitz <er@ericrbainowitz.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericrav/configless.git"
+  },
+  "keywords": [
+    "serverless",
+    "1.0",
+    "typescript",
+    "plugin",
+    "decorators",
+    "aws lambda"
+  ],
   "files": [
     "lib",
     "plugin"
