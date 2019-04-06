@@ -1,4 +1,4 @@
-export { BodyParser } from './BodyParser';
+export { Body } from './Body';
 export { Endpoint } from './Endpoint';
 export { Env } from './Env';
 export { Handler } from './Handler';
