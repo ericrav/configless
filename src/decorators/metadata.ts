@@ -31,13 +31,13 @@ export default class Metadata {
     safeSet(constructor, [ENV_KEY, []], [length, property]);
   }
 
-  public static getParams(target: Object, key: string): RequestParam {
-    return safeGet(target.constructor, PARAMS_KEY, key) as RequestParam;
+  public static getParams(constructor: Function, key: string): RequestParam[] {
+    return safeGet(constructor, PARAMS_KEY, key) as RequestParam[];
   }
 
-  public static setParams(target: Object, key: string, index: number, value: RequestParam) {
+  public static setParams(constructor: Function, key: string, index: number, value: RequestParam) {
     safeSet(
-      target.constructor,
+      constructor,
       [PARAMS_KEY, {}],
       [key, []],
       [index, value],

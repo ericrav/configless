@@ -115,35 +115,35 @@ describe('setEnv', () => {
 
 describe('getParams', () => {
   it('returns undefined when no params object', () => {
-    expect(Metadata.getParams(target, 'key1')).toBeUndefined();
+    expect(Metadata.getParams(target.constructor, 'key1')).toBeUndefined();
   });
 
   it('returns undefined when key not in params object', () => {
     target.constructor[PARAMS_KEY] = {};
-    expect(Metadata.getParams(target, 'key1')).toBeUndefined();
+    expect(Metadata.getParams(target.constructor, 'key1')).toBeUndefined();
   });
 
   it('returns the value when defined', () => {
     target.constructor[PARAMS_KEY] = { key1: [] };
-    expect(Metadata.getParams(target, 'key1')).toEqual([]);
+    expect(Metadata.getParams(target.constructor, 'key1')).toEqual([]);
   });
 });
 
 describe('setParams', () => {
   it('sets value when no params object', () => {
-    Metadata.setParams(target, 'key1', 0, RequestParam.JsonBody);
+    Metadata.setParams(target.constructor, 'key1', 0, RequestParam.JsonBody);
     expect(target.constructor[PARAMS_KEY].key1).toEqual([RequestParam.JsonBody]);
   });
 
   it('sets value when key not in params object', () => {
     target.constructor[PARAMS_KEY] = {};
-    Metadata.setParams(target, 'key1', 0, RequestParam.JsonBody);
+    Metadata.setParams(target.constructor, 'key1', 0, RequestParam.JsonBody);
     expect(target.constructor[PARAMS_KEY].key1).toEqual([RequestParam.JsonBody]);
   });
 
   it('sets the value when key defined', () => {
     target.constructor[PARAMS_KEY] = { key1: [333, 444] };
-    Metadata.setParams(target, 'key1', 1, RequestParam.JsonBody);
+    Metadata.setParams(target.constructor, 'key1', 1, RequestParam.JsonBody);
     expect(target.constructor[PARAMS_KEY].key1).toEqual([333, RequestParam.JsonBody]);
   });
 });

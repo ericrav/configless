@@ -12,5 +12,5 @@ it('should set the params metadata', () => {
   }
 
   expect(Metadata.setParams)
-    .toBeCalledWith(Mock.prototype, 'method', 0, RequestParam.JsonBody);
+    .toBeCalledWith(Mock, 'method', 0, RequestParam.JsonBody);
 });
