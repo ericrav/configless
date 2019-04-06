@@ -1,4 +1,4 @@
-import { FUNCTIONS_METADATA } from './decorators/config';
+import Metadata from './decorators/metadata';
 
 export * from './decorators';
 
@@ -18,8 +18,7 @@ export function addServices(parentExports, services: any[]) {
 }
 
 function getServiceConfig(parentExports, Service, i) {
-  const serviceFunctions = Service[FUNCTIONS_METADATA];
-  return Object.keys(serviceFunctions).reduce((serviceConfig, functionName) => {
+  return Metadata.getFunctions(Service).reduce((serviceConfig, [functionName, config]) => {
     const localName = `service${i}_${functionName}`;
 
     parentExports[localName] = (...args: any[]) => {
@@ -30,7 +29,7 @@ function getServiceConfig(parentExports, Service, i) {
     return {
       ...serviceConfig,
       [functionName]: {
-        ...serviceFunctions[functionName],
+        ...config,
         handler: `functions.${localName}`,
       },
     };
