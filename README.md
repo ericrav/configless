@@ -1,4 +1,5 @@
 # Configless with Serverless
+[![npm version](https://badge.fury.io/js/configless.svg)](https://badge.fury.io/js/configless)
 
 Configless is a Serverless plugin and library of TypeScript decorators that set the config for Lambda functions in `serverless.yml`
 and provide middleware for common tasks.
