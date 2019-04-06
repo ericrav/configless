@@ -12,6 +12,22 @@ beforeEach(() => {
   target = { constructor: {} } as Object;
 });
 
+describe('getFunction', () => {
+  it('returns undefined when no params object', () => {
+    expect(Metadata.getFunction(target.constructor, 'key1')).toBeUndefined();
+  });
+
+  it('returns the value when defined', () => {
+    target.constructor[FUNCTIONS_KEY] = {
+      key1: {},
+      key2: { foo: 'a' },
+      key3: { foo: 'b' },
+    };
+
+    expect(Metadata.getFunction(target.constructor, 'key3')).toEqual({ foo: 'b' });
+  });
+});
+
 describe('getFunctions', () => {
   it('returns undefined when no params object', () => {
     expect(Metadata.getFunctions(target.constructor)).toBeUndefined();
