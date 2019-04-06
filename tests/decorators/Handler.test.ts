@@ -1,7 +1,7 @@
 /* eslint-disable no-shadow */
 import { Lambda } from 'aws-sdk';
 
-import { Handler } from '../../src';
+import { Handler, Body } from '../../src';
 import Metadata from '../../src/decorators/metadata';
 
 jest.mock('aws-sdk');
@@ -63,7 +63,7 @@ describe('invoke metadata assignment', () => {
 });
 
 describe('class instances and this', () => {
-  class MockClass {
+  class ThisMockClass {
     private foo = 42;
 
     private greeting: string;
@@ -77,7 +77,7 @@ describe('class instances and this', () => {
     }
 
     @Handler()
-    public mockMethod() {
+    public async mockMethod() {
       return {
         foo: this.foo,
         greeting: this.hello(),
@@ -86,13 +86,33 @@ describe('class instances and this', () => {
   }
 
   it('can access all instance properties', async () => {
-    const result = await new MockClass().mockMethod();
+    const result = await new ThisMockClass()['__invoke_mockMethod']();
     expect(result).toEqual({
       foo: 42,
       greeting: 'Hello World',
     });
   });
 });
+
+describe('transforming the function arguments', () => {
+  class MockWithBody {
+    @Handler()
+    public async mockMethod(@Body() body) {
+      return body;
+    }
+  }
+
+  it('passes the JSON body as an object argument', async () => {
+    const result = await new MockWithBody().mockMethod({ body: JSON.stringify({ foo: 'bar' }) });
+    expect(result).toEqual({ foo: 'bar' });
+  });
+
+  it('passes {} if no body in event', async () => {
+    const result = await new MockWithBody().mockMethod({});
+    expect(result).toEqual({});
+  });
+});
+
 
 describe('invoking the AWS Lambda function', () => {
   const invoke = jest.fn();
