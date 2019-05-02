@@ -1,6 +1,6 @@
 {
   "name": "configless",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Serverless plugin to configure functions using TypeScript decorators",
   "main": "lib/index.js",
   "scripts": {

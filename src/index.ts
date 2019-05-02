@@ -3,10 +3,10 @@ import Metadata from './decorators/metadata';
 export * from './decorators';
 
 export function addServices(parentExports, services: any[]) {
-  if (module.parent && module.parent.exports && Object.keys(module.parent.exports).length) {
-    Object.assign(parentExports, module.parent.exports, { default: undefined });
-    return;
-  }
+  // if (module.parent && module.parent.exports && Object.keys(module.parent.exports).length) {
+  //   Object.assign(parentExports, module.parent.exports, { default: undefined });
+  //   return;
+  // }
 
   return services.reduce(
     (config, Service, i) => ({

@@ -44,12 +44,12 @@ it('adds the functions to the exports object', async () => {
   expect(await exports['service1_baz']()).toEqual('baz');
 });
 
-it('skips compiling if exports are already defined on module', () => {
-  const exports = {};
-  addServices(exports, [Mock1, Mock2]);
-  module.exports = exports;
+// it('skips compiling if exports are already defined on module', () => {
+//   const exports = {};
+//   addServices(exports, [Mock1, Mock2]);
+//   module.exports = exports;
 
-  const exports2 = {};
-  expect(addServices(exports2, [Mock1, Mock2])).toBeUndefined();
-  expect(exports2).toEqual(exports);
-});
+//   const exports2 = {};
+//   expect(addServices(exports2, [Mock1, Mock2])).toBeUndefined();
+//   expect(exports2).toEqual(exports);
+// });
