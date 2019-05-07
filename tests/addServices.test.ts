@@ -1,5 +1,5 @@
 import {
-  addServices, Service, Handler, Endpoint,
+  addServices, Service, Handler, useEndpoint,
 } from '../src';
 
 @Service()
@@ -17,8 +17,7 @@ class Mock2 {
     return 'bar';
   }
 
-  @Endpoint('GET', '/test')
-  @Handler()
+  @Handler(useEndpoint('GET', '/test'))
   public async baz() {
     return 'baz';
   }

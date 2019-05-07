@@ -126,18 +126,6 @@ Class properties marked with `@Env()` will be set a value from `process.env`.
 If a string parameter is passed, it uses that as the environment variable key.
 Otherwise, it will use the name of the property.
 
-## Endpoint
-
-```ts
-@Endpoint('GET', '/users', { cors: true })
-@Handler()
-async getUsers() {}
-```
-
-`Endpoint` adds an `http` event to the function's `events` list.
-It must be passed an http method and a pathname.
-Any additional config can be passed as an object.
-
 ## Respond
 
 ```ts
@@ -172,3 +160,16 @@ async method(@Body() body, event, context) {
   body === JSON.parse(event.body); // true
 }
 ```
+
+# Handler Middleware
+
+## useEndpoint
+
+```ts
+@Handler(useEndpoint('GET', '/users', { cors: true }))
+async getUsers() {}
+```
+
+`useEndpoint` adds an `http` event to the function's `events` list.
+It must be passed an http method and a pathname.
+Any additional config can be passed as an object.

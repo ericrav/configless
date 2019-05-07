@@ -1,6 +1,7 @@
 import Metadata from './decorators/metadata';
 
 export * from './decorators';
+export * from './middleware';
 
 export function addServices(parentExports, services: any[]) {
   // if (module.parent && module.parent.exports && Object.keys(module.parent.exports).length) {
