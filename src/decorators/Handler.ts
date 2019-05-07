@@ -1,9 +1,15 @@
 import { Lambda } from 'aws-sdk';
+import * as deepmerge from 'deepmerge';
 
 import { FunctionConfig, RequestParam } from './config';
 import Metadata from './metadata';
 
-export function Handler(config: FunctionConfig = {}): MethodDecorator {
+export function Handler(...configs: FunctionConfig[]): MethodDecorator {
+  let config: FunctionConfig = {};
+  if (configs.length > 0) {
+    config = configs.reduce((merged, next) => deepmerge(merged, next));
+  }
+
   return (target: Object, methodName: string, descriptor: PropertyDescriptor) => {
     Metadata.setFunctions(target.constructor, methodName, config);
 

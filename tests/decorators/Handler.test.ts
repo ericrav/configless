@@ -17,9 +17,7 @@ class MockClass {
 
 describe('adding config metadata to the class', () => {
   it('adds an empty object when nothing passed', () => {
-    expect(Metadata.getFunctions(MockClass)).toEqual([
-      ['mockMethod', {}],
-    ]);
+    expect(Metadata.getFunctions(MockClass)).toEqual([['mockMethod', {}]]);
   });
 
   it('adds any config object passed', () => {
@@ -28,9 +26,7 @@ describe('adding config metadata to the class', () => {
       public mockMethod() {}
     }
 
-    expect(Metadata.getFunctions(MockClass)).toEqual([
-      ['mockMethod', { env: 42, foo: 'bar' }],
-    ]);
+    expect(Metadata.getFunctions(MockClass)).toEqual([['mockMethod', { env: 42, foo: 'bar' }]]);
   });
 
   it('adds configs for multiple handlers', () => {
@@ -49,6 +45,33 @@ describe('adding config metadata to the class', () => {
       ['mock1', {}],
       ['mock2', { danny: 'devito' }],
       ['theArm', { environment: { sound: 'and I sound like this' } }],
+    ]);
+  });
+
+  it('deep merges multiple config objects', () => {
+    class MockClass {
+      @Handler(
+        { foo: 'bar' },
+        { bar: 'baz', events: [{ http: { foo: 'httpEvent' } }] },
+        { events: [{ http: { foo: 'httpEvent2' } }] },
+        { events: [{ s3: { foo: 's3Event' } }] },
+      )
+      public mockMethod() {}
+    }
+
+    expect(Metadata.getFunctions(MockClass)).toEqual([
+      [
+        'mockMethod',
+        {
+          foo: 'bar',
+          bar: 'baz',
+          events: [
+            { http: { foo: 'httpEvent' } },
+            { http: { foo: 'httpEvent2' } },
+            { s3: { foo: 's3Event' } },
+          ],
+        },
+      ],
     ]);
   });
 });
@@ -134,7 +157,6 @@ describe('transforming the function arguments', () => {
   });
 });
 
-
 describe('invoking the AWS Lambda function', () => {
   const invoke = jest.fn();
   let instance;
@@ -142,7 +164,7 @@ describe('invoking the AWS Lambda function', () => {
   beforeEach(() => {
     process.env.SLS_DECORATORS_FUNC_PREFIX = 'service-test';
 
-    (Lambda as unknown as jest.SpyInstance).mockImplementation(() => ({
+    ((Lambda as unknown) as jest.SpyInstance).mockImplementation(() => ({
       invoke,
     }));
 

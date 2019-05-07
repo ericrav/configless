@@ -78,7 +78,7 @@ functions:
 ## Handler
 
 ```ts
-@Handler({ ...functionConfig })
+@Handler({ ...functionConfig }, { ...anotherConfig })
 async someLambda(event, context) {}
 ```
 
