@@ -46,7 +46,7 @@
     "@types/serverless": "^1.18.2",
     "aws-sdk": "^2.433.0",
     "deepmerge": "^3.2.0",
-    "fs-extra": "^7.0.1",
+    "fs-extra": "^8.0.0",
     "typescript": "^3.4.1"
   }
 }
